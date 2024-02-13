@@ -1,22 +1,32 @@
 import { Request, Response } from 'express';
+import { User } from 'types';
 
-// Sample database to store user records
-export const database: any[] = [];
+export const database: User[] = [];
 
-export const createUser = (req: Request, res: Response) => {
-  const { name, email } = req.body;
+export const createUser = (request, response) => {
+  let body = '';
+  request.on('data', (chunk) => {
+    body += chunk;
+  });
+  request.on('end', () => {
+    const requestBody = JSON.parse(body);
+    const { username, age, hobbies } = requestBody;
 
-  // Check if required fields are present in the request body
-  if (!name || !email) {
-    return res.status(400).json({ message: 'Name and email are required fields' });
-  }
+    if (!username || !age || !hobbies) {
+      request.statusCode = 400;
+      request.setHeader('Content-Type', 'application/json');
+      request.end(
+        JSON.stringify({
+          message: 'Username, age, and hobbies are required fields',
+        })
+      );
+    } else {
+      const user = { id: `${database.length + 1}`, username, age, hobbies };
+      database.push(user);
 
-  // Create a new user record
-  const user = { id: database.length + 1, name, email };
-
-  // Store the user record in the database
-  database.push(user);
-
-  // Respond with the newly created user record
-  res.status(201).json(user);
+      response.statusCode = 201;
+      response.setHeader('Content-Type', 'application/json');
+      response.end(JSON.stringify(user));
+    }
+  });
 };

@@ -1,22 +1,23 @@
-import express, { Request, Response } from 'express';
 import process from 'process';
 import dotenv from 'dotenv';
-import path from 'path';
 import { getUsers } from './routes/getUsers';
 import { createUser } from './routes/postUser';
+import http from 'http';
 
 dotenv.config();
 
-const port = process.env.PORT || 3000;
+export const port = process.env.PORT || 3000;
 console.log(process.env.PORT);
 
-const app = express();
-
-app.get('/users', getUsers);
-app.post('/users', createUser);
-
-export function startServer() {
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
-}
+export const server = http.createServer((req, res) => {
+  if (req.method === 'POST' && req.url.startsWith('/api/users')) {
+    createUser(req, res);
+  }else  if (req.method === 'GET' && req.url.startsWith('/api/users')) {
+    getUsers(req, res);
+  } 
+  else {
+    // Handle other routes or methods
+    res.statusCode = 404;
+    res.end('Not Found');
+  }
+});
