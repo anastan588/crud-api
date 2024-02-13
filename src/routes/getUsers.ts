@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { database } from './postUser';
 
 export const getUsers = (request, response) => {

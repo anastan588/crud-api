@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { User } from 'types';
 
 export const database: User[] = [];
