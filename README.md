@@ -6,6 +6,7 @@ The task is to implement simple CRUD API.
 ## To run an application
 npm run start:dev - development mode 
 npm run start:prod - production mode
+npm run test - run tests mode
 
 ## Implemented endpoint api/users:
 ### GET api/users is used to get all persons
