@@ -18,7 +18,7 @@ export const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url.startsWith('/api/users')) {
       createUser(req, res);
     } else if (req.method === 'GET' && req.url.startsWith('/api/users')) {
-      if (req.url === '/api/users') {
+      if (req.url === '/api/users' || req.url === '/api/users/') {
         getUsers(req, res);
       } else {
         getUserById(req, res, userId);

@@ -20,7 +20,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "start:dev": "ts-node-dev src/index.ts",
-    "start:prod": "webpack && node dist/bundle.js",
+    "start:prod": "webpack && node dist/index.js",
     "serve": "webpack serve --open --config ./webpack.config.js --env mode=dev",
     "build": "webpack --config ./webpack.config.js --env mode=prod"
   },
