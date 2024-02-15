@@ -4,6 +4,8 @@ import { getUsers } from './routes/getUsers';
 import { getUserById } from './routes/getUserById';
 import { createUser } from './routes/postUser';
 import http from 'http';
+import { updateUser } from './routes/upDateUser';
+import { deleteUser } from './routes/delete.User';
 
 dotenv.config();
 
@@ -11,14 +13,20 @@ export const port = process.env.PORT || 3000;
 console.log(process.env.PORT);
 
 export const server = http.createServer((req, res) => {
+  const userId = getUserIdFromUrl(req.url);
   try {
-    const userId = getUserIdFromUrl(req.url);
-    if (req.method === 'GET' && req.url.startsWith(`/api/users/${userId}`)) {
-      getUserById(req, res, userId);
-    } else if (req.method === 'POST' && req.url.startsWith('/api/users')) {
+    if (req.method === 'POST' && req.url.startsWith('/api/users')) {
       createUser(req, res);
     } else if (req.method === 'GET' && req.url.startsWith('/api/users')) {
-      getUsers(req, res);
+      if (req.url === '/api/users') {
+        getUsers(req, res);
+      } else {
+        getUserById(req, res, userId);
+      }
+    } else if (req.method === 'PUT' && req.url.startsWith('/api/users/')) {
+      updateUser(req, res, userId);
+    } else if (req.method === 'DELETE' && req.url.startsWith('/api/users/')) {
+      deleteUser(req, res, userId);
     } else {
       res.statusCode = 404;
       res.end('Not Found');

@@ -1,6 +1,11 @@
 import { User } from 'types';
+import { v4 as uuidv4 } from 'uuid';
 
-export const database: User[] = [];
+export let database: User[] = [];
+
+export function setDatabase(data) {
+  database = data;
+}
 
 export const createUser = (request, response) => {
   let body = '';
@@ -20,7 +25,7 @@ export const createUser = (request, response) => {
         })
       );
     } else {
-      const user = { id: `${database.length + 1}`, username, age, hobbies };
+      const user = { id: uuidv4(), username, age, hobbies };
       database.push(user);
 
       response.statusCode = 201;
