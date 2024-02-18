@@ -7,6 +7,15 @@
           "node": "current"
         }
       }
+    ],
+    [
+      "@babel/preset-typescript",
+      {
+        "isTSX": true,
+        "allExtensions": true,
+        "allowNamespaces": true,
+        "allowDeclareFields": true
+      }
     ]
   ]
 }

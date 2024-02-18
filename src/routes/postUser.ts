@@ -1,11 +1,11 @@
 import { User } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
-export let database: User[] = [];
+export let database = [];
 
 export function setDatabase(data) {
   database = data;
-}
+};
 
 export const createUser = (request, response) => {
   let body = '';

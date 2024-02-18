@@ -1,14 +1,32 @@
 import request from 'supertest';
-import server from '../server.ts';
-import port from '../server.ts';
+import { server as serverFortest } from '../server.ts';
 
-const BASE_URL = port;
+const serverUrl = `http://localhost:${process.env.PORT || 3000}`;
+
+console.log(serverUrl);
+console.log(serverFortest);
 
 describe('API Tests', () => {
-  let createdUserId;
+  let serverTest;
+  beforeAll((done) => {
+    serverTest = serverFortest.listen(process.env.PORT, () => {
+      const serverUrl = `http://localhost:${serverTest.address().port}`;
+      console.log(serverUrl);
+      done();
+    });
+  });
+  afterAll((done) => {
+    serverTest.close(() => {
+      console.log('Server closed');
+      done();
+    });
+  });
 
+  let createdUserId;
   it('should return an empty array when retrieving all user records', async () => {
-    request(server).get(`${BASE_URL}/api/users`).expect(200).expect([], done);
+    const response = await request(serverTest).get(`/api/users`);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([]);
   });
 
   it('should create a new user successfully', async () => {
@@ -17,18 +35,19 @@ describe('API Tests', () => {
       age: 18,
       hobbies: ['reading', 'football'],
     };
-    request(server)
-      .post(BASE_URL)
+    request(serverTest)
+      .post(`/api/users`)
       .send(userData)
       .expect(201)
       .expect((response) => {
         assert.strictEqual(response.body.username, userData.username);
         createdUserId = response.body.id;
       })
-      .end(done);
   });
 
   it('should delete an existing user successfully', async () => {
-    request(server).delete(`${BASE_URL}/api/users/${createdUserId}`).expect(204, done);
+    request(serverTest)
+      .delete(`/api/users/${createdUserId}`)
+      .expect(204)
   });
 });
