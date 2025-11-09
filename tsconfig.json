@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "target": "es2018",
+    "module": "commonjs",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "types": ["express"],
+    "paths": {
+      "*": ["*"]
+    }
+  },
+  "include": ["src"]
+}
