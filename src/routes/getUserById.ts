@@ -1,4 +1,5 @@
-import { database } from './postUser';
+
+import { database } from '../database';
 import { validate as uuidValidate } from 'uuid';
 
 export const getUserById = (request, response, userId) => {

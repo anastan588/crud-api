@@ -1,4 +1,5 @@
-import { database, setDatabase } from './postUser';
+
+import { database, setDatabase } from '../database';
 import { validate as uuidValidate } from 'uuid';
 
 export const deleteUser = (request, response, userId) => {

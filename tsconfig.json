@@ -5,7 +5,10 @@
     "module": "commonjs",
     "outDir": "dist",
     "esModuleInterop": true,
-    "types": ["express"]
+    "types": ["express"],
+    "paths": {
+      "*": ["*"]
+    }
   },
   "include": ["src"]
 }

@@ -1,4 +1,4 @@
-import { database } from './postUser';
+import { database } from '../database';
 import { validate as uuidValidate } from 'uuid';
 
 export const updateUser = (request, response, userId) => {

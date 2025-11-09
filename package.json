@@ -29,6 +29,7 @@
     "start:prod": "webpack && node dist/index.js",
     "serve": "webpack serve --open --config ./webpack.config.js --env mode=dev",
     "build": "webpack --config ./webpack.config.js --env mode=prod",
+    "start:multi": "ts-node src/cluster.ts",
     "test": "jest"
   },
   "author": "anastan588",

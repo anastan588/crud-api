@@ -1,11 +1,6 @@
-import { User } from '../types';
+import { database } from '../database';
 import { v4 as uuidv4 } from 'uuid';
 
-export let database = [];
-
-export function setDatabase(data) {
-  database = data;
-};
 
 export const createUser = (request, response) => {
   let body = '';

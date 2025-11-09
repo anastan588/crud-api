@@ -1,4 +1,5 @@
-import { database } from './postUser';
+import { database } from '../database';
+
 
 export const getUsers = (request, response) => {
     response.statusCode = 200;
