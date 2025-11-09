@@ -1,19 +1,17 @@
 import request from 'supertest';
 import { server as serverFortest } from '../server.ts';
 
-const serverUrl = `http://localhost:${process.env.PORT || 3000}`;
-
-console.log(serverUrl);
-console.log(serverFortest);
-
 describe('API Tests', () => {
   let serverTest;
   beforeAll((done) => {
-    serverTest = serverFortest.listen(process.env.PORT, () => {
-      const serverUrl = `http://localhost:${serverTest.address().port}`;
-      console.log(serverUrl);
+    serverTest = serverFortest.listen(0, () => {
+      const port = serverTest.address().port;
+      console.log(`Test server running on http://localhost:${port}`);
       done();
-    });
+    }).on('error', (err) => {
+    console.error('Server failed to start:', err);
+    done(err);
+  });
   });
   afterAll((done) => {
     serverTest.close(() => {

@@ -13,24 +13,31 @@ export const createUser = (request, response) => {
     body += chunk;
   });
   request.on('end', () => {
-    const requestBody = JSON.parse(body);
-    const { username, age, hobbies } = requestBody;
+    try {
+      const requestBody = JSON.parse(body);
+      const { username, age, hobbies } = requestBody;
 
-    if (!username || !age || !hobbies) {
-      request.statusCode = 400;
-      request.setHeader('Content-Type', 'application/json');
-      request.end(
-        JSON.stringify({
+      if (!username || !age || !hobbies) {
+        response.statusCode = 400;
+        response.setHeader('Content-Type', 'application/json');
+        return response.end(JSON.stringify({
           message: 'Username, age, and hobbies are required fields',
-        })
-      );
-    } else {
+        }));
+      }
+
       const user = { id: uuidv4(), username, age, hobbies };
       database.push(user);
 
       response.statusCode = 201;
       response.setHeader('Content-Type', 'application/json');
       response.end(JSON.stringify(user));
+
+    } catch (error) {
+      response.statusCode = 400;
+      response.setHeader('Content-Type', 'application/json');
+      response.end(JSON.stringify({
+        message: 'Invalid JSON',
+      }));
     }
   });
 };
